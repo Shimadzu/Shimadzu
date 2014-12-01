@@ -1,9 +1,15 @@
 package com.market.controller;
 
+import com.market.bean.User;
+import com.market.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author shuaixiaoji
@@ -13,9 +19,15 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "/test")
 public class Test {
-        @RequestMapping(value = "/index", method = RequestMethod.GET)
-        public String getIndex(){
+    @Autowired
+    private UserService userService;
 
-             return "test/index";
-        }
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public String getIndex(HttpServletRequest request, HttpSession session, Model model){
+        String userId = request.getParameter("userId");
+        User u = userService.getUserById(userId);
+        System.out.println("11111111111");
+        model.addAttribute("user",u);
+        return "test/hehe";
+    }
 }
